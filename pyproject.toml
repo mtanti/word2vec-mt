@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools==70.2.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project]
+name = "word2vec_mt"
+authors = [
+    {name = "Marc Tanti", email = "marc.tanti@um.edu.mt"},
+]
+description = "A Python project for creating Maltese word2vec word embeddings."
+readme = "README.md"
+requires-python = ">=3.9"
+keywords = [
+    "word2vec",
+    "embeddings",
+    "Maltese",
+]
+license = {text = "MIT License"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3",
+    "Typing :: Typed",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dynamic = ["version", "dependencies"]
+
+[tool.setuptools.dynamic]
+version = {attr = "word2vec_mt.__version__"}
+dependencies = {file = "requirements.txt"}
+
+[project.urls]
+Repository = "https://github.com/mtanti/word2vec_mt/"
+Documentation = "https://word2vec_mt.readthedocs.io/"
