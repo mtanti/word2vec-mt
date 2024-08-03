@@ -30,7 +30,7 @@ The path to the English word2vec NumPy file.
 '''
 
 synonyms_mt_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt.jsonl',
+    word2vec_mt.path, '..', '..', 'output', 'synonyms_mt.jsonl',
 ))
 '''
 The path to the Maltese text file of synonyms.
@@ -51,7 +51,7 @@ The path to the English word2vec NumPy file.
 '''
 
 translations_mten_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'translations_mten.jsonl',
+    word2vec_mt.path, '..', '..', 'output', 'translations_mten.jsonl',
 ))
 '''
 The path to the Maltese-English text file of translated words.
