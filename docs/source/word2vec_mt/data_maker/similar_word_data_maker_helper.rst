@@ -1,7 +1,7 @@
 similar_word_data_maker_helper.py
 =================================
 
-.. automodule:: word2vec_mt.similar_word_data_maker_helper
+.. automodule:: word2vec_mt.data_maker.similar_word_data_maker_helper
     :members:
     :show-inheritance:
     :inherited-members:
