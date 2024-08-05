@@ -10,7 +10,9 @@ embeddings.
 '''
 
 import argparse
-import word2vec_mt.data_downloader
+from word2vec_mt.data_downloader import (
+    download_mt, download_en,
+)
 
 
 #########################################
@@ -28,8 +30,8 @@ def main(
 
     parser.parse_args()
 
-    word2vec_mt.data_downloader.download_mt()
-    word2vec_mt.data_downloader.download_en()
+    download_mt()
+    download_en()
 
 
 #########################################

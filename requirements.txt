@@ -3,6 +3,7 @@ codecarbon==2.5.0
 datasets==2.20.0
 gdown==5.2.0
 gensim==4.3.2
+h5py==3.11.0
 malti==0.1.0
 mypy==1.10.1
 optuna==3.6.1

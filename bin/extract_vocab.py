@@ -9,7 +9,9 @@ Extract a vocabulary from the Maltese corpus.
 '''
 
 import argparse
-import word2vec_mt.vocab_extractor
+from word2vec_mt.vocab_extractor import (
+    extract_vocab,
+)
 
 
 #########################################
@@ -27,7 +29,7 @@ def main(
 
     parser.parse_args()
 
-    word2vec_mt.vocab_extractor.extract_vocab()
+    extract_vocab()
 
 
 #########################################

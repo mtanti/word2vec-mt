@@ -9,7 +9,9 @@ Help make a Maltese synonym data set.
 '''
 
 import argparse
-import word2vec_mt.data_maker
+from word2vec_mt.data_maker import (
+    help_make_synonym_data_set,
+)
 
 
 #########################################
@@ -24,7 +26,7 @@ def main(
 
     parser.parse_args()
 
-    word2vec_mt.data_maker.help_make_synonym_data_set()
+    help_make_synonym_data_set()
 
 
 #########################################

@@ -36,6 +36,13 @@ synonyms_mt_path: str = os.path.abspath(os.path.join(
 The path to the Maltese text file of synonyms.
 '''
 
+proccorpus_mt_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'data', 'proccorpus_mt.hdf5',
+))
+'''
+The path to the processed Maltese corpus file.
+'''
+
 vocab_en_path: str = os.path.abspath(os.path.join(
     word2vec_mt.path, '..', '..', 'data', 'vocab_en.txt',
 ))
