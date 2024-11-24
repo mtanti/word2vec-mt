@@ -19,7 +19,7 @@ NUM_SYNONYM_ENTRIES_NEEDED = 100
 The number of synonym words to ask the user to enter.
 '''
 
-NUM_TRANSLATION_ENTRIES_NEEDED = 100
+NUM_TRANSLATION_ENTRIES_NEEDED = 200
 '''
 The number of translation words to ask the user to enter.
 '''
