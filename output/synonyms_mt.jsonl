@@ -9,7 +9,7 @@
 {"source": "kkombinati", "similars": ["ikkombinati", "imqabblin", "imħalltin", "magħqudin", "mqabblin", "mħalltin"]}
 {"source": "kkontemplat", "similars": ["ikkontemplat", "ikkunsidrat", "kkunsidrat", "ħasbet"]}
 {"source": "jikkritika", "similars": ["imaqdar", "jiddiżapprova", "jmaqdar"]}
-{"source": "prudenti", "similars": ["attenti", "kawti"]}
+{"source": "prudenti", "similars": ["attent", "attenti", "kawt", "kawti"]}
 {"source": "umiljazzjoni", "similars": ["għarukaża", "mistħija"]}
 {"source": "iffokati", "similars": ["attenti", "ffokati", "ikkonċentrati", "kkonċentrati"]}
 {"source": "ħidmet", "similars": ["xogħol"]}
@@ -33,20 +33,20 @@
 {"source": "tmasħnu", "similars": ["irrabjaw", "rrabjaw", "telgħalhom"]}
 {"source": "jinkariga", "similars": ["iqabbad", "jqabbad"]}
 {"source": "jilħaqlu", "similars": ["intelliġenti", "makakk"]}
-{"source": "semmih", "similars": ["innominah", "nnominah", "sejjaħlu"]}
+{"source": "inkarigatu", "similars": ["qabbditu"]}
 {"source": "kkmandata", "similars": ["ikkmandata", "ordnata"]}
 {"source": "tixpakka", "similars": ["tinfaqa'", "tinqasam"]}
 {"source": "stmata", "similars": ["apprezzata"]}
 {"source": "jimmeritawx", "similars": ["ħaqqhomx"]}
 {"source": "jeleminaw", "similars": ["ineħħu", "iqaċċtu", "jneħħu", "jqaċċtu"]}
-{"source": "iqanqalhom", "similars": ["iħajjarhom", "jittantahom", "jħajjarhom"]}
+{"source": "iqanqalhom", "similars": ["iħajjarhom", "jħajjarhom"]}
 {"source": "jsaltan", "similars": ["isaltan", "jirrenja"]}
 {"source": "inkonċepibbli", "similars": ["impossibbli", "inkredibbli"]}
 {"source": "naqa", "similars": ["daqsxejn", "farka", "ftit", "tikka", "ħarira"]}
 {"source": "timminimizza", "similars": ["iċċekken", "tinjora", "ċċekken"]}
 {"source": "pproponejt", "similars": ["ipproponejt", "issuġġerejt", "ssuġġerejt"]}
 {"source": "ewlenin", "similars": ["importanti", "primarji"]}
-{"source": "jirrinforza", "similars": ["isaħħaħ", "iwebbes", "jsaħħaħ", "jwebbes"]}
+{"source": "jirrinforza", "similars": ["isaħħaħ", "jsaħħaħ"]}
 {"source": "distintiv", "similars": ["speċjali", "straordinarju"]}
 {"source": "kittieba", "similars": ["awturi"]}
 {"source": "jassoċjawh", "similars": ["iqabbluh", "jqabbluh"]}
@@ -57,11 +57,11 @@
 {"source": "kurċifissi", "similars": ["slaleb"]}
 {"source": "żminijiet", "similars": ["epoki", "eri", "perjodi"]}
 {"source": "sostitwit", "similars": ["mibdul"]}
-{"source": "inkapaċitati", "similars": ["diżabbli"]}
+{"source": "jiċħad", "similars": ["jinnega"]}
 {"source": "battal", "similars": ["vojt", "żvojta"]}
-{"source": "tbatija", "similars": ["miżerja", "tortura", "uġigħ", "wġigħ"]}
-{"source": "poġġejt", "similars": ["erfajt", "irfajt", "qgħedt", "rfajt"]}
-{"source": "stqarr", "similars": ["ddikjara", "iddikjara"]}
+{"source": "tbatija", "similars": ["miżerja", "sofferenza", "uġigħ", "wġigħ"]}
+{"source": "poġġejt", "similars": ["qgħedt"]}
+{"source": "enormi", "similars": ["daqsiex", "ġgantesk"]}
 {"source": "nappuntawh", "similars": ["nagħżluh"]}
 {"source": "kummiedja", "similars": ["farsa"]}
 {"source": "eliminat", "similars": ["imneħħi", "imqaċċat", "mneħħi", "mqaċċat"]}
@@ -95,6 +95,6 @@
 {"source": "donazzjoni", "similars": ["għajnuna", "karità"]}
 {"source": "tgħabbi", "similars": ["terfa'", "tqiegħed"]}
 {"source": "ippastardjat", "similars": ["imħallat", "mħallat"]}
-{"source": "miżuri", "similars": ["azzjonijiet", "digrieti", "provvedimenti"]}
-{"source": "imbassar", "similars": ["antiċipat", "mbassar", "previst"]}
-{"source": "tħabbar", "similars": ["intqal", "ixxandar", "ntqal", "tbassar", "xxandar"]}
+{"source": "miżuri", "similars": ["digrieti", "provvedimenti"]}
+{"source": "imbassar", "similars": ["mbassar", "previst"]}
+{"source": "tħabbar", "similars": ["intqal", "ixxandar", "ntqal", "xxandar"]}
