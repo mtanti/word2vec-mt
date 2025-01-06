@@ -4,6 +4,7 @@
 import os
 import tempfile
 import random
+import math
 import numpy as np
 import torch
 import h5py
@@ -51,6 +52,7 @@ class TrainListener:
     def ended_batch(
         self,
         batch_num: int,
+        num_batches: int,
         train_error: float,
     ) -> None:
         '''
@@ -127,9 +129,13 @@ def train_skipgram_model(
     device: str,
     seed: int,
     listener: TrainListener = TrainListener(),
+    test_mode: bool = False,
+    one_superbatch: bool = False,
 ) -> SkipgramModel:
     '''
     '''
+    assert superbatch_size%batch_size == 0
+
     model = SkipgramModel(vocab_size, embedding_size, init_stddev, dropout_rate)
     model.initialise(seed)
     model.to(device)
@@ -138,53 +144,67 @@ def train_skipgram_model(
     error_func = torch.nn.CrossEntropyLoss()
     best_val_map = 0.0
     num_bad_epochs = 0
+    num_batches = math.ceil(len(train_data)/batch_size) if not one_superbatch else math.ceil(min(len(train_data), superbatch_size)/batch_size)
     seed_rng = random.Random(seed)
     with tempfile.TemporaryDirectory() as tmp_dir:
         listener.started_training()
 
         for epoch_num in range(1, max_epochs+1):
-            try:
-                listener.started_epoch(epoch_num)
+            listener.started_epoch(epoch_num)
 
-                batch_num = 0
-                for superbatch_index in range(0, train_data.shape[0], superbatch_size):
-                    generator = torch.Generator()
-                    generator.manual_seed(seed_rng.randrange(0, 2**32 - 1))
-                    data_loader = torch.utils.data.DataLoader(
-                        SkipgramDataSet(
-                            input_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 0],
-                            target_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 1],
-                        ),
-                        batch_size, shuffle=True, generator=generator,
-                    )
+            batch_num = 0
+            for superbatch_index in range(0, train_data.shape[0], superbatch_size):
+                generator = torch.Generator()
+                generator.manual_seed(seed_rng.randrange(0, 2**32 - 1))
+                data_loader = torch.utils.data.DataLoader(
+                    SkipgramDataSet(
+                        input_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 0],
+                        target_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 1],
+                    ),
+                    batch_size, shuffle=True, generator=generator,
+                )
 
-                    model.train()
-                    for batch in data_loader:
-                        batch_num += 1
-                        listener.started_batch(batch_num)
+                model.train()
+                for batch in data_loader:
+                    batch_num += 1
+                    listener.started_batch(batch_num)
 
-                        batch_input = batch['input'].to(device)
-                        batch_target = batch['target'].to(device)
-                        optimiser.zero_grad()
-                        logits = model(batch_input)
-                        train_error = error_func(logits, batch_target)
-                        train_error.backward()
-                        optimiser.step()
+                    batch_input = batch['input'].to(device)
+                    batch_target = batch['target'].to(device)
+                    optimiser.zero_grad()
+                    logits = model(batch_input)
+                    train_error = error_func(logits, batch_target)
+                    train_error.backward()
+                    optimiser.step()
 
-                        listener.ended_batch(batch_num, train_error.detach().cpu().tolist())
+                    listener.ended_batch(batch_num, num_batches, train_error.detach().cpu().tolist())
 
-                model.eval()
-                val_map = synonym_mean_average_precision(model.get_embeddings(), val_data)
-                if val_map > best_val_map:
-                    torch.save(model.state_dict(), os.path.join(tmp_dir, 'model.pt'))
-                    best_val_map = val_map
-                    num_bad_epochs = 0
-                else:
-                    num_bad_epochs += 1
-                    if num_bad_epochs == patience:
+                    if test_mode:
+                        if batch_num == 2:
+                            break
+
+                if test_mode:
+                    if batch_num == 2:
                         break
-            finally:
-                listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
+                if one_superbatch:
+                    break
+
+            model.eval()
+            val_map = synonym_mean_average_precision(model.get_embeddings(), val_data)
+            if val_map > best_val_map:
+                torch.save(model.state_dict(), os.path.join(tmp_dir, 'model.pt'))
+                best_val_map = val_map
+                num_bad_epochs = 0
+            else:
+                num_bad_epochs += 1
+                if num_bad_epochs == patience:
+                    listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
+                    break
+
+            listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
+
+            if test_mode:
+                break
 
         model.load_state_dict(torch.load(os.path.join(tmp_dir, 'model.pt'), weights_only=True))
 
@@ -271,35 +291,35 @@ def train_linear_model(
         listener.started_training()
 
         for epoch_num in range(1, max_epochs+1):
-            try:
-                listener.started_epoch(epoch_num)
+            listener.started_epoch(epoch_num)
 
-                model.train()
-                for (batch_num, batch) in enumerate(data_loader, start=1):
-                    listener.started_batch(batch_num)
+            model.train()
+            for (batch_num, batch) in enumerate(data_loader, start=1):
+                listener.started_batch(batch_num)
 
-                    batch_input = batch['input'].to(device)
-                    batch_target = batch['target'].to(device)
-                    optimiser.zero_grad()
-                    outputs = model(batch_input)
-                    train_error = error_func(outputs, batch_target)
-                    train_error.backward()
-                    optimiser.step()
+                batch_input = batch['input'].to(device)
+                batch_target = batch['target'].to(device)
+                optimiser.zero_grad()
+                outputs = model(batch_input)
+                train_error = error_func(outputs, batch_target)
+                train_error.backward()
+                optimiser.step()
 
-                    listener.ended_batch(batch_num, train_error.detach().cpu().tolist())
+                listener.ended_batch(batch_num, train_error.detach().cpu().tolist())
 
-                model.eval()
-                val_map = translation_mean_average_precision(source_embedding_matrix, target_embedding_matrix, val_data)
-                if val_map > best_val_map:
-                    torch.save(model.state_dict(), os.path.join(tmp_dir, 'model.pt'))
-                    best_val_map = val_map
-                    num_bad_epochs = 0
-                else:
-                    num_bad_epochs += 1
-                    if num_bad_epochs == patience:
-                        break
-            finally:
-                listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
+            model.eval()
+            val_map = translation_mean_average_precision(source_embedding_matrix, target_embedding_matrix, val_data)
+            if val_map > best_val_map:
+                torch.save(model.state_dict(), os.path.join(tmp_dir, 'model.pt'))
+                best_val_map = val_map
+                num_bad_epochs = 0
+            else:
+                num_bad_epochs += 1
+                if num_bad_epochs == patience:
+                    listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
+                    break
+
+            listener.ended_epoch(epoch_num, val_map, num_bad_epochs == 0, num_bad_epochs)
 
         model.load_state_dict(torch.load(os.path.join(tmp_dir, 'model.pt'), weights_only=True))
 
