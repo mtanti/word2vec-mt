@@ -62,7 +62,7 @@ class TrainListener:
     def ended_epoch(
         self,
         epoch_num: int,
-        val_error: float,
+        val_map: float,
         new_best: bool,
         num_bad_epochs: int,
     ) -> None:

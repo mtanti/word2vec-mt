@@ -1,4 +1,5 @@
 vocab_en.txt
 word2vec_en.npy
 corpus_mt.txt
-proccorpus_mt.hdf5
+*.hdf5
+*.sqlite3

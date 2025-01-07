@@ -4,7 +4,7 @@ Convert the Maltese corpus into a word2vec skip-gram model train set.
 
 from typing import Iterable, Iterator
 import tqdm
-from word2vec_mt.constants import (
+from word2vec_mt.paths import (
     vocab_mt_path, corpus_mt_path, proccorpus_mt_path,
 )
 from word2vec_mt.corpus_preprocessor.buffer import BufferedHDF5

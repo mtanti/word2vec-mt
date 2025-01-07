@@ -4,7 +4,7 @@ Extract a vocabulary from the Maltese corpus.
 
 import collections
 import tqdm
-from word2vec_mt.constants import corpus_mt_path, vocab_mt_path
+from word2vec_mt.paths import corpus_mt_path, vocab_mt_path
 
 
 #########################################

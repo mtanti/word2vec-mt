@@ -7,7 +7,7 @@ the vocabulary.
 from word2vec_mt.data_maker.user_input_logic import (
     help_make_similar_word_data_set
 )
-from word2vec_mt.constants import (
+from word2vec_mt.paths import (
     vocab_mt_path, vocab_en_path, synonyms_mt_path, translations_mten_path
 )
 

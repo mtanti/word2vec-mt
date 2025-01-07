@@ -40,7 +40,7 @@ def synonym_mean_average_precision(
         total_average_precision += average_precision(
             embedding_matrix_mt[data.source_token_indexes[i]],
             embedding_matrix_mt,
-            data.similars_token_indexes[i],
+            data.targets_token_indexes[i],
         )
     return total_average_precision/len(data.source_token_indexes)
 
@@ -58,6 +58,6 @@ def translation_mean_average_precision(
         total_average_precision += average_precision(
             embedding_matrix_mt[data.source_token_indexes[i]],
             embedding_matrix_en,
-            data.similars_token_indexes[i],
+            data.targets_token_indexes[i],
         )
     return total_average_precision/len(data.source_token_indexes)

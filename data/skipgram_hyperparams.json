@@ -1,0 +1,26 @@
+{
+    "embedding_size": 300,
+    "init_stddev": [
+        1.0,
+        0.1,
+        0.01
+    ],
+    "dropout_rate": [
+        0.5,
+        0.25,
+        0.1
+    ],
+    "learning_rate": [
+        1.0,
+        0.1,
+        0.01
+    ],
+    "max_epochs": 10,
+    "radius": 5,
+    "superbatch_size_multiple": 100,
+    "batch_size": 462,
+    "patience": 3,
+    "tuning_trials": 10,
+    "device": "cuda",
+    "seed": 0
+}

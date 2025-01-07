@@ -11,7 +11,7 @@ import datasets
 import malti.tokeniser
 import gdown
 import numpy as np
-from word2vec_mt.constants import (
+from word2vec_mt.paths import (
     corpus_mt_path, vocab_en_path, word2vec_en_path,
 )
 
