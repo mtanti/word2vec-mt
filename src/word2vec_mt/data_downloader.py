@@ -23,13 +23,6 @@ def download_mt(
     Download the Maltese corpus from HuggingFace.
     '''
     print('Getting the Maltese corpus')
-    try:
-        with open(corpus_mt_path, 'x', encoding='utf-8') as f:
-            pass
-    except FileExistsError:
-        print(f'Corpus file already exists: {corpus_mt_path}')
-        print('- Skipping')
-        return
 
     print('- Loading the MLRS corpus from HuggingFace')
     dataset = datasets.load_dataset(
@@ -57,13 +50,6 @@ def download_en(
     https://github.com/danielfrg/word2vec/blob/main/word2vec/wordvectors.py
     '''
     print('Getting the English word2vec')
-    try:
-        with open(word2vec_en_path, 'x', encoding='utf-8') as f:
-            pass
-    except FileExistsError:
-        print(f'word2vec file already exists: {word2vec_en_path}')
-        print('- Skipping')
-        return
 
     with tempfile.TemporaryDirectory() as tmp_dir:
         print('- Downloading GoogleNews word2vec')

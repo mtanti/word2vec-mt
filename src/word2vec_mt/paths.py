@@ -36,25 +36,11 @@ synonyms_mt_path: str = os.path.abspath(os.path.join(
 The path to the Maltese text file of synonyms.
 '''
 
-synonyms_mt_val_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_val.json',
+synonyms_mt_split_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt.json',
 ))
 '''
-The path to the Maltese text file of synonyms validation split.
-'''
-
-synonyms_mt_dev_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_dev.json',
-))
-'''
-The path to the Maltese text file of synonyms development split.
-'''
-
-synonyms_mt_test_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_test.json',
-))
-'''
-The path to the Maltese text file of synonyms test split.
+The path to the Maltese text file of synonyms split into data sets.
 '''
 
 proccorpus_mt_path: str = os.path.abspath(os.path.join(
@@ -92,32 +78,11 @@ translations_mten_path: str = os.path.abspath(os.path.join(
 The path to the Maltese-English text file of translated words.
 '''
 
-translations_mten_train_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'translations_mten_train.json',
+translations_mten_split_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'data', 'translations_mten.json',
 ))
 '''
-The path to the Maltese-English text file of translated words train split.
-'''
-
-translations_mten_val_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'translations_mten_val.json',
-))
-'''
-The path to the Maltese-English text file of translated words validation split.
-'''
-
-translations_mten_dev_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'translations_mten_dev.json',
-))
-'''
-The path to the Maltese-English text file of translated words development split.
-'''
-
-translations_mten_test_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'data', 'translations_mten_test.json',
-))
-'''
-The path to the Maltese-English text file of translated words test split.
+The path to the Maltese-English text file of translated words split into data sets.
 '''
 
 skipgram_hyperparams_config_path: str = os.path.abspath(os.path.join(

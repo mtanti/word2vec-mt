@@ -5,13 +5,12 @@
 #
 # This file is part of word2vec_mt project.
 '''
-Convert the Maltese corpus into a word2vec skip-gram model train set.
+Convert the Maltese corpus into a word2vec skipgram model train set.
 '''
 
 import argparse
-from word2vec_mt.corpus_preprocessor.corpus_to_train_set import (
-    preprocess_corpus,
-)
+from word2vec_mt.paths import vocab_mt_path, corpus_mt_path, proccorpus_mt_path
+from word2vec_mt.corpus_preprocessor.corpus_to_train_set import preprocess_corpus
 
 
 #########################################
@@ -22,8 +21,12 @@ def main(
     '''
     parser = argparse.ArgumentParser(
         description=(
-            'Convert the Maltese corpus into a word2vec skip-gram model train'
-            ' set and save it in data/.'
+            'Convert the Maltese corpus into a word2vec skip-gram model train set.'
+            ' | Input files:'
+            f' * {vocab_mt_path} (extract_vocab.py),'
+            f' * {corpus_mt_path} (download_data_mt.py)'
+            ' | Output files:'
+            f' * {proccorpus_mt_path}'
         ),
     )
     parser.add_argument(

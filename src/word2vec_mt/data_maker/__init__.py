@@ -22,6 +22,8 @@ The validation split is for early stopping and the development split is for hype
 from word2vec_mt.data_maker.similar_word_data_maker_helper import (
     help_make_synonym_data_set,
     help_make_translations_data_set,
+    NUM_SYNONYM_ENTRIES_NEEDED,
+    NUM_TRANSLATION_ENTRIES_NEEDED,
 )
 from word2vec_mt.data_maker.data_splitter import (
     split_synonym_data_set,

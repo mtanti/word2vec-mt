@@ -5,14 +5,12 @@
 #
 # This file is part of word2vec_mt project.
 '''
-Download the Maltese and English data sources to be used for creating word2vec
-embeddings.
+Download the English word2vec embeddings (Google News 300).
 '''
 
 import argparse
-from word2vec_mt.data_downloader import (
-    download_mt, download_en,
-)
+from word2vec_mt.paths import vocab_en_path, word2vec_en_path
+from word2vec_mt.data_downloader import download_en
 
 
 #########################################
@@ -23,14 +21,15 @@ def main(
     '''
     parser = argparse.ArgumentParser(
         description=(
-            'Download the Maltese and English data sources to be used for'
-            ' creating word2vec embeddings and save them in data/.'
+            'Download the English word2vec embeddings (Google News 300).'
+            ' | Input files: none'
+            ' | Output files:'
+            f' * {vocab_en_path},'
+            f' * {word2vec_en_path}'
         )
     )
-
     parser.parse_args()
 
-    download_mt()
     download_en()
 
 

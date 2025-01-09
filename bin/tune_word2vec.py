@@ -1,6 +1,58 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2024 Marc Tanti
+#
+# This file is part of word2vec_mt project.
 '''
+Tune the hyperparameters of the word2vec model for Maltese.
 '''
 
-from word2vec_mt.model import (
-    optimise_skipgram_batch_size, tune_skipgram_model
+import argparse
+from word2vec_mt.paths import (
+    vocab_mt_path, synonyms_mt_split_path, proccorpus_mt_path, skipgram_hyperparams_config_path,
+    skipgram_hyperparams_db_path, skipgram_hyperparams_result_path,
 )
+from word2vec_mt.model import optimise_skipgram_batch_size, tune_skipgram_model
+
+
+
+#########################################
+def main(
+) -> None:
+    '''
+    Main function.
+    '''
+    parser = argparse.ArgumentParser(
+        description=(
+            'Tune the hyperparameters of the word2vec model for Maltese.'
+            ' | Input files:'
+            f' * {skipgram_hyperparams_config_path} (manually set config file),'
+            f' * {vocab_mt_path} (extract_vocab.py),'
+            f' * {synonyms_mt_split_path} (split_synonym_data_set.py),'
+            f' * {proccorpus_mt_path} (preprocess_corpus_to_train_set.py)'
+            ' | Output files:'
+            f' * {skipgram_hyperparams_config_path},'
+            f' * {skipgram_hyperparams_db_path},'
+            f' * {skipgram_hyperparams_result_path};'
+            ' Note that this overwrites the batch_size hyperparameter in the config file as it'
+            ' is optimised for your GPU.'
+        ),
+    )
+    parser.add_argument(
+        'max_batch_size',
+        type=int,
+        help=(
+            'The maximum batch size to use.'
+            ' The more VRAM in your GPU, the bigger this number can be.'
+        ),
+    )
+    args = parser.parse_args()
+
+    optimise_skipgram_batch_size(args.max_batch_size)
+    tune_skipgram_model()
+
+
+#########################################
+if __name__ == '__main__':
+    main()

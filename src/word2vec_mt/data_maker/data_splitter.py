@@ -8,9 +8,7 @@ from word2vec_mt.data_maker.load_data import load_file
 from word2vec_mt.paths import (
     vocab_mt_path, vocab_en_path,
     synonyms_mt_path, translations_mten_path,
-    synonyms_mt_val_path, synonyms_mt_dev_path, synonyms_mt_test_path,
-    translations_mten_train_path, translations_mten_val_path, translations_mten_dev_path,
-    translations_mten_test_path
+    synonyms_mt_split_path, translations_mten_split_path,
 )
 
 
@@ -69,18 +67,15 @@ assert (
 
 #########################################
 def split_synonym_data_set(
-    seed: int,
 ) -> None:
     '''
     Randomly split the file referred to in synonyms_mt_path into val, dev, and test splits.
-
-    :param seed: The random seed to use for randomly splitting the data.
     '''
     with open(vocab_mt_path, 'r', encoding='utf-8') as f:
         vocab_mt = set(line.strip() for line in f)
     data = load_file(vocab_mt, vocab_mt, synonyms_mt_path)
 
-    rng = random.Random(seed)
+    rng = random.Random(0)
     rng.shuffle(data)
 
     val_size = int(len(data)*(SYNONYM_VAL_FRAC))
@@ -89,34 +84,29 @@ def split_synonym_data_set(
     dev = data[val_size:val_size+dev_size]
     test = data[val_size+dev_size:]
 
-    with open(synonyms_mt_val_path, 'w', encoding='utf-8') as f:
+    with open(synonyms_mt_split_path, 'w', encoding='utf-8') as f:
         json.dump({
-            "source": [entry.source for entry in val],
-            "targets": [sorted(entry.similars) for entry in val],
-        }, f, ensure_ascii=False, indent=4)
-
-    with open(synonyms_mt_dev_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source": [entry.source for entry in dev],
-            "targets": [sorted(entry.similars) for entry in dev],
-        }, f, ensure_ascii=False, indent=4)
-
-    with open(synonyms_mt_test_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source": [entry.source for entry in test],
-            "targets": [sorted(entry.similars) for entry in test],
+            "val": {
+                "source": [entry.source for entry in val],
+                "targets": [sorted(entry.similars) for entry in val],
+            },
+            "dev": {
+                "source": [entry.source for entry in dev],
+                "targets": [sorted(entry.similars) for entry in dev],
+            },
+            "test": {
+                "source": [entry.source for entry in test],
+                "targets": [sorted(entry.similars) for entry in test],
+            },
         }, f, ensure_ascii=False, indent=4)
 
 
 #########################################
 def split_translation_data_set(
-    seed: int,
 ) -> None:
     '''
     Randomly split the file referred to in translations_mten_path into train val, dev, and test
     splits.
-
-    :param seed: The random seed to use for randomly splitting the data.
     '''
     with open(vocab_mt_path, 'r', encoding='utf-8') as f:
         vocab_mt = set(line.strip() for line in f)
@@ -124,7 +114,7 @@ def split_translation_data_set(
         vocab_en = set(line.strip() for line in f)
     data = load_file(vocab_mt, vocab_en, translations_mten_path)
 
-    rng = random.Random(seed)
+    rng = random.Random(0)
     rng.shuffle(data)
 
     train_size = int(len(data)*(TRANSLATION_TRAIN_FRAC))
@@ -135,26 +125,22 @@ def split_translation_data_set(
     dev = data[train_size+val_size:train_size+val_size+dev_size]
     test = data[train_size+val_size+dev_size:]
 
-    with open(translations_mten_train_path, 'w', encoding='utf-8') as f:
+    with open(translations_mten_split_path, 'w', encoding='utf-8') as f:
         json.dump({
-            "source": [entry.source for entry in train],
-            "targets": [sorted(entry.similars) for entry in train],
-        }, f, ensure_ascii=False, indent=4)
-
-    with open(translations_mten_val_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source": [entry.source for entry in val],
-            "targets": [sorted(entry.similars) for entry in val],
-        }, f, ensure_ascii=False, indent=4)
-
-    with open(translations_mten_dev_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source": [entry.source for entry in dev],
-            "targets": [sorted(entry.similars) for entry in dev],
-        }, f, ensure_ascii=False, indent=4)
-
-    with open(translations_mten_test_path, 'w', encoding='utf-8') as f:
-        json.dump({
-            "source": [entry.source for entry in test],
-            "targets": [sorted(entry.similars) for entry in test],
+            "train": {
+                "source": [entry.source for entry in train],
+                "targets": [sorted(entry.similars) for entry in train],
+            },
+            "val": {
+                "source": [entry.source for entry in val],
+                "targets": [sorted(entry.similars) for entry in val],
+            },
+            "dev": {
+                "source": [entry.source for entry in dev],
+                "targets": [sorted(entry.similars) for entry in dev],
+            },
+            "test": {
+                "source": [entry.source for entry in test],
+                "targets": [sorted(entry.similars) for entry in test],
+            },
         }, f, ensure_ascii=False, indent=4)
