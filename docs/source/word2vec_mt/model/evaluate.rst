@@ -1,7 +1,7 @@
-vocab_extractor.py
-==================
+evaluate.py
+===========
 
-.. automodule:: word2vec_mt.vocab_extractor
+.. automodule:: word2vec_mt.model.evaluate
     :members:
     :show-inheritance:
     :inherited-members:

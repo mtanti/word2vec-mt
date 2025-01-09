@@ -19,6 +19,7 @@ An entry is validated by checking that:
 .. toctree::
     :maxdepth: 1
 
+    data_maker/data_splitter.rst
     data_maker/entry.rst
     data_maker/load_data.rst
     data_maker/similar_word_data_maker_helper.rst

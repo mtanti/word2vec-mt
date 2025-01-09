@@ -10,7 +10,10 @@ import torch
 import h5py
 from word2vec_mt.model.model import SkipgramModel, LinearModel
 from word2vec_mt.model.data import DataSplit, FlatDataSplit
-from word2vec_mt.model.evaluate import synonym_mean_average_precision, translation_mean_average_precision
+from word2vec_mt.model.evaluate import (
+    synonym_mean_average_precision,
+    translation_mean_average_precision,
+)
 
 
 #########################################
@@ -36,6 +39,7 @@ class TrainListener:
     def started_epoch(
         self,
         epoch_num: int,
+        num_batches: int,
     ) -> None:
         '''
         '''
@@ -79,6 +83,8 @@ class TrainListener:
 
 #########################################
 class SkipgramDataSet(torch.utils.data.Dataset):
+    '''
+    '''
 
     #########################################
     def __init__(
@@ -144,13 +150,16 @@ def train_skipgram_model(
     error_func = torch.nn.CrossEntropyLoss()
     best_val_map = 0.0
     num_bad_epochs = 0
-    num_batches = math.ceil(len(train_data)/batch_size) if not one_superbatch else math.ceil(min(len(train_data), superbatch_size)/batch_size)
+    if not one_superbatch:
+        num_batches = math.ceil(len(train_data)/batch_size)
+    else:
+        num_batches = math.ceil(min(len(train_data), superbatch_size)/batch_size)
     seed_rng = random.Random(seed)
     with tempfile.TemporaryDirectory() as tmp_dir:
         listener.started_training()
 
         for epoch_num in range(1, max_epochs+1):
-            listener.started_epoch(epoch_num)
+            listener.started_epoch(epoch_num, num_batches)
 
             batch_num = 0
             for superbatch_index in range(0, train_data.shape[0], superbatch_size):
@@ -158,8 +167,14 @@ def train_skipgram_model(
                 generator.manual_seed(seed_rng.randrange(0, 2**32 - 1))
                 data_loader = torch.utils.data.DataLoader(
                     SkipgramDataSet(
-                        input_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 0],
-                        target_token_indexes=train_data[superbatch_index:superbatch_index+superbatch_size, 1],
+                        input_token_indexes=train_data[
+                            superbatch_index:superbatch_index+superbatch_size,
+                            0,
+                        ],
+                        target_token_indexes=train_data[
+                            superbatch_index:superbatch_index+superbatch_size,
+                            1,
+                        ],
                     ),
                     batch_size, shuffle=True, generator=generator,
                 )
@@ -177,7 +192,11 @@ def train_skipgram_model(
                     train_error.backward()
                     optimiser.step()
 
-                    listener.ended_batch(batch_num, num_batches, train_error.detach().cpu().tolist())
+                    listener.ended_batch(
+                        batch_num,
+                        num_batches,
+                        train_error.detach().cpu().tolist(),
+                    )
 
                     if test_mode:
                         if batch_num == 2:
@@ -215,6 +234,8 @@ def train_skipgram_model(
 
 #########################################
 class LinearDataSet(torch.utils.data.Dataset):
+    '''
+    '''
 
     #########################################
     def __init__(
@@ -254,7 +275,7 @@ def train_linear_model(
     source_embedding_size: int,
     target_embedding_size: int,
     init_stddev: float,
-    use_bias: float,
+    use_bias: bool,
     weight_decay: float,
     learning_rate: float,
     max_epochs: int,
@@ -280,18 +301,19 @@ def train_linear_model(
     generator.manual_seed(seed)
     data_loader = torch.utils.data.DataLoader(
         LinearDataSet(
-            input_token_indexes=source_embedding_matrix[train_data.source_token_indexes, :],
-            target_token_indexes=target_embedding_matrix[train_data.similar_token_indexes, :],
+            input_embeddings=source_embedding_matrix[train_data.source_token_indexes, :],
+            target_embeddings=target_embedding_matrix[train_data.similar_token_indexes, :],
         ),
         batch_size, shuffle=True, generator=generator,
     )
     best_val_map = 0.0
     num_bad_epochs = 0
+    num_batches = len(train_data.source_token_indexes)
     with tempfile.TemporaryDirectory() as tmp_dir:
         listener.started_training()
 
         for epoch_num in range(1, max_epochs+1):
-            listener.started_epoch(epoch_num)
+            listener.started_epoch(epoch_num, num_batches)
 
             model.train()
             for (batch_num, batch) in enumerate(data_loader, start=1):
@@ -305,10 +327,18 @@ def train_linear_model(
                 train_error.backward()
                 optimiser.step()
 
-                listener.ended_batch(batch_num, train_error.detach().cpu().tolist())
+                listener.ended_batch(
+                    batch_num,
+                    num_batches,
+                    train_error.detach().cpu().tolist(),
+                )
 
             model.eval()
-            val_map = translation_mean_average_precision(source_embedding_matrix, target_embedding_matrix, val_data)
+            val_map = translation_mean_average_precision(
+                source_embedding_matrix,
+                target_embedding_matrix,
+                val_data,
+            )
             if val_map > best_val_map:
                 torch.save(model.state_dict(), os.path.join(tmp_dir, 'model.pt'))
                 best_val_map = val_map

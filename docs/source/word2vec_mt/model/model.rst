@@ -1,7 +1,7 @@
-constants.py
-============
+model.py
+========
 
-.. automodule:: word2vec_mt.constants
+.. automodule:: word2vec_mt.model.model
     :members:
     :show-inheritance:
     :inherited-members:

@@ -13,9 +13,17 @@ An entry is validated by checking that:
 * There is at least one similar word.
 * The source word and its similars are all unique.
 * The source word is different from the words in previous entries.
+
+There is also a random data splitter included for splitting the produced data set into a train,
+validation, development, and test split.
+The validation split is for early stopping and the development split is for hyperparameter tuning.
 '''
 
 from word2vec_mt.data_maker.similar_word_data_maker_helper import (
     help_make_synonym_data_set,
     help_make_translations_data_set,
+)
+from word2vec_mt.data_maker.data_splitter import (
+    split_synonym_data_set,
+    split_translation_data_set,
 )

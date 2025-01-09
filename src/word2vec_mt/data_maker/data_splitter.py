@@ -31,7 +31,12 @@ SYNONYM_TEST_FRAC = 0.4
 The fraction of the synonym data set to split into a test set.
 '''
 
-assert SYNONYM_VAL_FRAC + SYNONYM_DEV_FRAC + SYNONYM_TEST_FRAC == 1.0
+assert (
+    SYNONYM_VAL_FRAC
+    + SYNONYM_DEV_FRAC
+    + SYNONYM_TEST_FRAC
+    == 1.0
+)
 
 TRANSLATION_TRAIN_FRAC = 0.5
 '''
@@ -53,7 +58,13 @@ TRANSLATION_TEST_FRAC = 0.2
 The fraction of the translation data set to split into a test set.
 '''
 
-assert TRANSLATION_TRAIN_FRAC + TRANSLATION_VAL_FRAC + TRANSLATION_DEV_FRAC + TRANSLATION_TEST_FRAC == 1.0
+assert (
+    TRANSLATION_TRAIN_FRAC
+    + TRANSLATION_VAL_FRAC
+    + TRANSLATION_DEV_FRAC
+    + TRANSLATION_TEST_FRAC
+    == 1.0
+)
 
 
 #########################################

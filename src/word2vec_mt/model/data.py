@@ -1,7 +1,6 @@
 '''
 '''
 
-import random
 import json
 from dataclasses import dataclass
 import numpy as np
@@ -11,7 +10,6 @@ from word2vec_mt.paths import (
     translations_mten_train_path, translations_mten_val_path, translations_mten_dev_path,
     translations_mten_test_path,
 )
-from word2vec_mt.data_maker.load_data import load_file
 
 
 #########################################
@@ -47,6 +45,8 @@ class TranslationDataSplits:
 #########################################
 def load_synonym_data_set(
 ) -> SynonymDataSplits:
+    '''
+    '''
     with open(vocab_mt_path, 'r', encoding='utf-8') as f:
         token2index_mt = {token: i for (i, token) in enumerate(line.strip() for line in f)}
     with open(synonyms_mt_val_path, 'r', encoding='utf-8') as f:
@@ -59,15 +59,24 @@ def load_synonym_data_set(
     return SynonymDataSplits(
         val=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in val['source']],
-            targets_token_indexes=[[token2index_mt[target] for target in targets] for targets in val['targets']],
+            targets_token_indexes=[
+                [token2index_mt[target] for target in targets]
+                for targets in val['targets']
+            ],
         ),
         dev=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in dev['source']],
-            targets_token_indexes=[[token2index_mt[target] for target in targets] for targets in dev['targets']],
+            targets_token_indexes=[
+                [token2index_mt[target] for target in targets]
+                for targets in dev['targets']
+            ],
         ),
         test=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in test['source']],
-            targets_token_indexes=[[token2index_mt[target] for target in targets] for targets in test['targets']],
+            targets_token_indexes=[
+                [token2index_mt[target] for target in targets]
+                for targets in test['targets']
+            ],
         ),
     )
 
@@ -75,6 +84,8 @@ def load_synonym_data_set(
 #########################################
 def load_translation_data_set(
 ) -> TranslationDataSplits:
+    '''
+    '''
     with open(vocab_mt_path, 'r', encoding='utf-8') as f:
         token2index_mt = {token: i for (i, token) in enumerate(line.strip() for line in f)}
     with open(vocab_en_path, 'r', encoding='utf-8') as f:
@@ -91,19 +102,31 @@ def load_translation_data_set(
     return TranslationDataSplits(
         train=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in train['source']],
-            targets_token_indexes=[[token2index_en[target] for target in targets] for targets in train['targets']],
+            targets_token_indexes=[
+                [token2index_en[target] for target in targets]
+                for targets in train['targets']
+            ],
         ),
         val=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in val['source']],
-            targets_token_indexes=[[token2index_en[target] for target in targets] for targets in val['targets']],
+            targets_token_indexes=[
+                [token2index_en[target] for target in targets]
+                for targets in val['targets']
+            ],
         ),
         dev=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in dev['source']],
-            targets_token_indexes=[[token2index_en[target] for target in targets] for targets in dev['targets']],
+            targets_token_indexes=[
+                [token2index_en[target] for target in targets]
+                for targets in dev['targets']
+            ],
         ),
         test=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in test['source']],
-            targets_token_indexes=[[token2index_en[target] for target in targets] for targets in test['targets']],
+            targets_token_indexes=[
+                [token2index_en[target] for target in targets]
+                for targets in test['targets']
+            ],
         ),
     )
 
@@ -124,14 +147,14 @@ class FlatDataSplit:
         '''
         '''
         return FlatDataSplit(
-            source_token_indexes=np.fromiter(
+            source_token_indexes=np.fromiter((
                 data.source_token_indexes[i]
                 for i in range(len(data.source_token_indexes))
                 for _ in data.targets_token_indexes[i]
-            ),
-            similar_token_indexes=np.fromiter(
+            ), np.int32),
+            similar_token_indexes=np.fromiter((
                 similar
                 for i in range(len(data.source_token_indexes))
                 for similar in data.targets_token_indexes[i]
-            ),
+            ), np.int32),
         )

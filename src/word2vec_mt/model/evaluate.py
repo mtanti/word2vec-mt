@@ -10,11 +10,13 @@ def cosine_similarity(
     vec: np.ndarray,
     mat: np.ndarray,
 ) -> np.ndarray:
+    '''
+    '''
     return (vec@mat.T)/(np.linalg.norm(vec)*np.linalg.norm(mat, axis=1))
 
 
 #########################################
-def average_precision(
+def get_average_precision(
     source_vec: np.ndarray,
     targets_mat: np.ndarray,
     expected_most_similar_rows: list[int],
@@ -36,11 +38,14 @@ def synonym_mean_average_precision(
     '''
     '''
     total_average_precision = 0.0
-    for i in range(len(data.source_token_indexes)):
-        total_average_precision += average_precision(
-            embedding_matrix_mt[data.source_token_indexes[i]],
+    for (source_index, targets_indexes) in zip(
+        data.source_token_indexes,
+        data.targets_token_indexes,
+    ):
+        total_average_precision += get_average_precision(
+            embedding_matrix_mt[source_index],
             embedding_matrix_mt,
-            data.targets_token_indexes[i],
+            targets_indexes,
         )
     return total_average_precision/len(data.source_token_indexes)
 
@@ -54,10 +59,13 @@ def translation_mean_average_precision(
     '''
     '''
     total_average_precision = 0.0
-    for i in range(len(data.source_token_indexes)):
-        total_average_precision += average_precision(
-            embedding_matrix_mt[data.source_token_indexes[i]],
+    for (source_index, targets_indexes) in zip(
+        data.source_token_indexes,
+        data.targets_token_indexes,
+    ):
+        total_average_precision += get_average_precision(
+            embedding_matrix_mt[source_index],
             embedding_matrix_en,
-            data.targets_token_indexes[i],
+            targets_indexes,
         )
     return total_average_precision/len(data.source_token_indexes)

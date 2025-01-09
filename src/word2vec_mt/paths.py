@@ -127,11 +127,18 @@ skipgram_hyperparams_config_path: str = os.path.abspath(os.path.join(
 The path to the skipgram model's hyperparameters configuration file.
 '''
 
-skipgram_hyperparams_record_path: str = os.path.abspath(os.path.join(
+skipgram_hyperparams_db_path: str = os.path.abspath(os.path.join(
     word2vec_mt.path, '..', '..', 'data', 'skipgram_hyperparams.sqlite3',
 ))
 '''
-The path to the skipgram model's hyperparameter search history file.
+The path to the skipgram model's hyperparameter search results file (machine readable).
+'''
+
+skipgram_hyperparams_result_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'data', 'skipgram_hyperparams.csv',
+))
+'''
+The path to the skipgram model's hyperparameter search results file (human readable).
 '''
 
 skipgram_hyperparams_best_path: str = os.path.abspath(os.path.join(
@@ -155,11 +162,18 @@ linear_hyperparams_config_path: str = os.path.abspath(os.path.join(
 The path to the linear model's hyperparameters configuration file.
 '''
 
-linear_hyperparams_record_path: str = os.path.abspath(os.path.join(
+linear_hyperparams_db_path: str = os.path.abspath(os.path.join(
     word2vec_mt.path, '..', '..', 'data', 'linear_hyperparams.sqlite3',
 ))
 '''
-The path to the linear model's hyperparameter search history file.
+The path to the linear model's hyperparameter search results file (machine readable).
+'''
+
+linear_hyperparams_result_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'data', 'linear_hyperparams.csv',
+))
+'''
+The path to the linear model's hyperparameter search results file (human readable).
 '''
 
 linear_hyperparams_best_path: str = os.path.abspath(os.path.join(

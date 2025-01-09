@@ -35,7 +35,7 @@ class SkipgramModel(torch.nn.Module):
         '''
         g = torch.Generator()
         g.manual_seed(seed)
-        for (name, param) in self.named_parameters():
+        for (_, param) in self.named_parameters():
             torch.nn.init.normal_(param, std=self.init_stddev, generator=g)
 
     #########################################
@@ -53,6 +53,8 @@ class SkipgramModel(torch.nn.Module):
     def get_embeddings(
         self,
     ) -> np.ndarray:
+        '''
+        '''
         return self.embedding_layer.weight.data.detach().cpu().numpy()
 
 
@@ -84,7 +86,7 @@ class LinearModel(torch.nn.Module):
         '''
         g = torch.Generator()
         g.manual_seed(seed)
-        for (name, param) in self.named_parameters():
+        for (_, param) in self.named_parameters():
             torch.nn.init.normal_(param, std=self.init_stddev, generator=g)
 
     #########################################
