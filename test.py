@@ -1,4 +1,4 @@
-from word2vec_mt.model.tuner import optimise_batch_size, tune_skipgram_model, train_best_skipgram_model
+from word2vec_mt.model.tuner import optimise_skipgram_batch_size, tune_skipgram_model, train_best_skipgram_model
 from codecarbon import OfflineEmissionsTracker
 
 '''
@@ -11,7 +11,7 @@ with OfflineEmissionsTracker(
 '''
 if True:
     print('optimising batch sizes')
-    optimise_batch_size()
+    optimise_skipgram_batch_size()
 
     print('tuning model')
     tune_skipgram_model()

@@ -4,22 +4,22 @@
         "kkombinati",
         "prudenti",
         "mixlijin",
-        "jirrinforza",
+        "jassoċjawh",
         "iffokati",
         "nutilizzaw",
-        "inkarċerat",
-        "donazzjoni",
-        "nixxala",
+        "jeludi",
+        "kkjarifika",
+        "żminijiet",
         "niddikjara",
-        "enormi",
-        "ntbaħtx",
-        "iqanqalhom",
-        "fiżiċi",
+        "kriterji",
+        "ivverifika",
+        "naqa",
+        "inkarċerat",
         "tpinġijiet",
-        "ewlenin",
+        "kittieba",
+        "iħaddem",
         "brijużi",
-        "ċuffa",
-        "eliminat"
+        "regħba"
     ],
     "targets": [
         [
@@ -48,8 +48,7 @@
             "implikati"
         ],
         [
-            "isaħħaħ",
-            "jsaħħaħ"
+            "jqabbluh"
         ],
         [
             "attenti",
@@ -64,16 +63,18 @@
             "nħaddmu"
         ],
         [
-            "maqful"
+            "jevadi",
+            "jiżgiċċa"
         ],
         [
-            "għajnuna",
-            "karità"
+            "ikkjarifika",
+            "iċċara",
+            "ċċara"
         ],
         [
-            "ingawdi",
-            "ngawdi",
-            "niddeverti"
+            "epoki",
+            "eri",
+            "perjodi"
         ],
         [
             "insostni",
@@ -82,19 +83,24 @@
             "nsostni"
         ],
         [
-            "daqsiex",
-            "ġgantesk"
+            "kundizzjonijiet"
         ],
         [
-            "indunajtx",
-            "ndunajtx"
+            "ikkonferma",
+            "iċċekkja",
+            "kkonferma",
+            "vverifika",
+            "ċċekkja"
         ],
         [
-            "iħajjarhom",
-            "jħajjarhom"
+            "daqsxejn",
+            "farka",
+            "ftit",
+            "tikka",
+            "ħarira"
         ],
         [
-            "materjali"
+            "maqful"
         ],
         [
             "disinji",
@@ -103,21 +109,19 @@
             "tattwaġġi"
         ],
         [
-            "importanti",
-            "primarji"
+            "awturi"
+        ],
+        [
+            "iqabbad",
+            "jimpjega",
+            "jqabbad",
+            "jħaddem"
         ],
         [
             "ferrieħa"
         ],
         [
-            "għawma",
-            "ċafċifa"
-        ],
-        [
-            "imneħħi",
-            "imqaċċat",
-            "mneħħi",
-            "mqaċċat"
+            "xewqa"
         ]
     ]
 }

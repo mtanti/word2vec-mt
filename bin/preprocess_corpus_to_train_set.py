@@ -32,8 +32,9 @@ def main(
         help='The context window radius to use.',
     )
     parser.add_argument(
-        'buffer',
+        '--buffer',
         type=int,
+        default=10000,
         help='The number of data items to buffer before flushing into file.',
     )
     args = parser.parse_args()

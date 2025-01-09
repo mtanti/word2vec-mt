@@ -2,16 +2,29 @@
 Extract a vocabulary from the Maltese corpus.
 '''
 
+import re
 import collections
 import tqdm
 from word2vec_mt.paths import corpus_mt_path, vocab_mt_path
 
 
 #########################################
-MIN_FREQ_VOCAB = 5
+MIN_FREQ_VOCAB = 10
 '''
-The minimum frequency a word must occur in the corpus to be included in the
-vocabulary.
+The minimum frequency a token must occur in the corpus to be included in the vocabulary.
+'''
+
+ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÀÈÌÒÙĊĠĦŻabcdefghijklmnopqrstuvwxyzàáéíóúċġħż'
+'''
+All the letters of the Maltese alphabet (plus some English ones) as a non-delimited string.
+à turns out to be a very common character in the MLRS corpus, so including it.
+'''
+
+TOKEN_FILTER_RE = re.compile(f'([-ʼ\']*)([{ALPHABET}]([-ʼ\']*))+')
+'''
+A regular expression used to filter tokens that we want to keep.
+A valid token must have a least one letter of the alphabet and can have dashes (il-) or
+apostrophes (ta').
 '''
 
 
@@ -23,13 +36,6 @@ def extract_vocab(
     MIN_FREQ_VOCAB times.
     '''
     print('Extracting vocabulary')
-    try:
-        with open(vocab_mt_path, 'x', encoding='utf-8') as f:
-            pass
-    except FileExistsError:
-        print(f'Vocabulary file already exists: ({vocab_mt_path})')
-        print('- Skipping')
-        return
 
     print('- Counting lines in corpus')
     num_lines = 0
@@ -41,7 +47,10 @@ def extract_vocab(
     token_freqs = collections.Counter[str]()
     with open(corpus_mt_path, 'r', encoding='utf-8') as f:
         for (line, _) in zip(f, tqdm.tqdm(range(num_lines))):
-            sent_tokens = line.strip().split(' ')
+            sent_tokens = [
+                token for token in line.strip().split(' ')
+                if TOKEN_FILTER_RE.fullmatch(token)
+            ]
             token_freqs.update(sent_tokens)
 
     print('- Saving the vocabulary')

@@ -26,7 +26,7 @@ word2vec_mt_path: str = os.path.abspath(os.path.join(
     word2vec_mt.path, '..', '..', 'output', 'word2vec_mt.npy',
 ))
 '''
-The path to the English word2vec NumPy file.
+The path to the Maltese word2vec NumPy file.
 '''
 
 synonyms_mt_path: str = os.path.abspath(os.path.join(
@@ -37,21 +37,21 @@ The path to the Maltese text file of synonyms.
 '''
 
 synonyms_mt_val_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'synonyms_mt_val.json',
+    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_val.json',
 ))
 '''
 The path to the Maltese text file of synonyms validation split.
 '''
 
 synonyms_mt_dev_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'synonyms_mt_dev.json',
+    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_dev.json',
 ))
 '''
 The path to the Maltese text file of synonyms development split.
 '''
 
 synonyms_mt_test_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'synonyms_mt_test.json',
+    word2vec_mt.path, '..', '..', 'data', 'synonyms_mt_test.json',
 ))
 '''
 The path to the Maltese text file of synonyms test split.
@@ -78,6 +78,13 @@ word2vec_en_path: str = os.path.abspath(os.path.join(
 The path to the English word2vec NumPy file.
 '''
 
+word2vec_mten_path: str = os.path.abspath(os.path.join(
+    word2vec_mt.path, '..', '..', 'output', 'word2vec_mten.npy',
+))
+'''
+The path to the English-aligned Maltese word2vec NumPy file.
+'''
+
 translations_mten_path: str = os.path.abspath(os.path.join(
     word2vec_mt.path, '..', '..', 'output', 'translations_mten.jsonl',
 ))
@@ -86,28 +93,28 @@ The path to the Maltese-English text file of translated words.
 '''
 
 translations_mten_train_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'translations_mten_train.json',
+    word2vec_mt.path, '..', '..', 'data', 'translations_mten_train.json',
 ))
 '''
 The path to the Maltese-English text file of translated words train split.
 '''
 
 translations_mten_val_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'translations_mten_val.json',
+    word2vec_mt.path, '..', '..', 'data', 'translations_mten_val.json',
 ))
 '''
 The path to the Maltese-English text file of translated words validation split.
 '''
 
 translations_mten_dev_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'translations_mten_dev.json',
+    word2vec_mt.path, '..', '..', 'data', 'translations_mten_dev.json',
 ))
 '''
 The path to the Maltese-English text file of translated words development split.
 '''
 
 translations_mten_test_path: str = os.path.abspath(os.path.join(
-    word2vec_mt.path, '..', '..', 'output', 'translations_mten_test.json',
+    word2vec_mt.path, '..', '..', 'data', 'translations_mten_test.json',
 ))
 '''
 The path to the Maltese-English text file of translated words test split.

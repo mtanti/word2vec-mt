@@ -74,7 +74,6 @@ def load_synonym_data_set(
 
 #########################################
 def load_translation_data_set(
-    seed: int,
 ) -> TranslationDataSplits:
     with open(vocab_mt_path, 'r', encoding='utf-8') as f:
         token2index_mt = {token: i for (i, token) in enumerate(line.strip() for line in f)}
@@ -89,7 +88,7 @@ def load_translation_data_set(
     with open(translations_mten_test_path, 'r', encoding='utf-8') as f:
         test = json.load(f)
 
-    return SynonymDataSplits(
+    return TranslationDataSplits(
         train=DataSplit(
             source_token_indexes=[token2index_mt[source] for source in train['source']],
             targets_token_indexes=[[token2index_en[target] for target in targets] for targets in train['targets']],
@@ -121,7 +120,7 @@ class FlatDataSplit:
     @staticmethod
     def flatten(
         data: DataSplit,
-    ) -> list[int]:
+    ) -> 'FlatDataSplit':
         '''
         '''
         return FlatDataSplit(

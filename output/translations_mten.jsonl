@@ -35,7 +35,7 @@
 {"source": "talb", "similars": ["prayers"]}
 {"source": "ġenituri", "similars": ["parents"]}
 {"source": "dejn", "similars": ["debt"]}
-{"source": "kangarù", "similars": ["kangaroo"]}
+{"source": "kangaru", "similars": ["kangaroo"]}
 {"source": "midinbin", "similars": ["sinners"]}
 {"source": "kmieni", "similars": ["early"]}
 {"source": "ċintorin", "similars": ["belt"]}
@@ -44,7 +44,6 @@
 {"source": "dnubiet", "similars": ["sins"]}
 {"source": "skritturi", "similars": ["scriptures"]}
 {"source": "insostitwibbli", "similars": ["irreplaceable"]}
-{"source": "dominatur", "similars": ["dominator"]}
 {"source": "semestru", "similars": ["semester"]}
 {"source": "sodifaċenti", "similars": ["adequate", "good", "satisfactory"]}
 {"source": "oħxon", "similars": ["fat", "thick"]}
@@ -67,7 +66,7 @@
 {"source": "dokument", "similars": ["document"]}
 {"source": "transittiva", "similars": ["transitive"]}
 {"source": "etimoloġika", "similars": ["etymological"]}
-{"source": "dettalljat", "similars": ["detailed", "intricate"]}
+{"source": "dettaljat", "similars": ["detailed", "intricate"]}
 {"source": "sadid", "similars": ["rust"]}
 {"source": "radjografiku", "similars": ["radiographic"]}
 {"source": "prominenti", "similars": ["outstanding", "prominent"]}
@@ -122,7 +121,6 @@
 {"source": "faċilità", "similars": ["facility"]}
 {"source": "fondaturi", "similars": ["founders"]}
 {"source": "fformat", "similars": ["formed", "molded", "shaped"]}
-{"source": "miżurata", "similars": ["measured"]}
 {"source": "parċmini", "similars": ["parchments"]}
 {"source": "Russu", "similars": ["Russian"]}
 {"source": "tiġieġa", "similars": ["chicken"]}
@@ -198,3 +196,5 @@
 {"source": "qanpiena", "similars": ["bell"]}
 {"source": "qorti", "similars": ["court", "courthouse"]}
 {"source": "taqsima", "similars": ["section"]}
+{"source": "serp", "similars": ["serpent", "snake"]}
+{"source": "skużi", "similars": ["excuses", "pardon", "sorry"]}

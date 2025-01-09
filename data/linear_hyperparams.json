@@ -1,0 +1,36 @@
+{
+    "source_embedding_size": 300,
+    "target_embedding_size": 300,
+    "init_stddev": [
+        1.0,
+        0.1,
+        0.01
+    ],
+    "use_bias": [
+        false,
+        true
+    ],
+    "weight_decay": [
+        1.0,
+        0.1,
+        0.01
+    ],
+    "learning_rate": [
+        1.0,
+        0.1,
+        0.01
+    ],
+    "max_epochs": 10,
+    "batch_size": [
+        1,
+        5,
+        10,
+        25,
+        50,
+        100
+    ],
+    "patience": 3,
+    "tuning_trials": 100,
+    "device": "cuda",
+    "seed": 0
+}
