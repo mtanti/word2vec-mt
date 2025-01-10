@@ -20,7 +20,7 @@
         0.1,
         0.01
     ],
-    "max_epochs": 10,
+    "max_epochs": 50,
     "batch_size": [
         1,
         5,
@@ -30,7 +30,7 @@
         100
     ],
     "patience": 3,
-    "tuning_trials": 100,
+    "tuning_trials": 50,
     "device": "cuda",
     "seed": 0
 }

@@ -13,7 +13,7 @@ from word2vec_mt.paths import (
     vocab_mt_path, synonyms_mt_split_path, proccorpus_mt_path, skipgram_hyperparams_config_path,
     skipgram_hyperparams_db_path, skipgram_hyperparams_result_path,
 )
-from word2vec_mt.model import optimise_skipgram_batch_size, tune_skipgram_model
+from word2vec_mt.model import tune_skipgram_model
 
 
 
@@ -32,24 +32,12 @@ def main(
             f' * {synonyms_mt_split_path} (split_synonym_data_set.py),'
             f' * {proccorpus_mt_path} (preprocess_corpus_to_train_set.py)'
             ' | Output files:'
-            f' * {skipgram_hyperparams_config_path},'
             f' * {skipgram_hyperparams_db_path},'
-            f' * {skipgram_hyperparams_result_path};'
-            ' Note that this overwrites the batch_size hyperparameter in the config file as it'
-            ' is optimised for your GPU.'
+            f' * {skipgram_hyperparams_result_path}'
         ),
     )
-    parser.add_argument(
-        'max_batch_size',
-        type=int,
-        help=(
-            'The maximum batch size to use.'
-            ' The more VRAM in your GPU, the bigger this number can be.'
-        ),
-    )
-    args = parser.parse_args()
+    parser.parse_args()
 
-    optimise_skipgram_batch_size(args.max_batch_size)
     tune_skipgram_model()
 
 

@@ -17,10 +17,10 @@
     ],
     "max_epochs": 10,
     "radius": 5,
-    "superbatch_size_multiple": 100,
-    "batch_size": 462,
+    "superbatch_size_multiple": 1000,
+    "batch_size": 999,
     "patience": 3,
-    "tuning_trials": 10,
+    "tuning_trials": 20,
     "device": "cuda",
     "seed": 0
 }

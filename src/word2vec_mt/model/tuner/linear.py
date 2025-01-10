@@ -9,10 +9,9 @@ import optuna
 from word2vec_mt.model.tuner.common import Listener
 from word2vec_mt.model.trainer import train_linear_model
 from word2vec_mt.model.data import load_translation_data_set
-from word2vec_mt.model.evaluate import translation_mean_average_precision
+from word2vec_mt.model.evaluate import translation_mean_average_precision, get_translation_report
 from word2vec_mt.paths import (
     word2vec_mt_path,
-    skipgram_hyperparams_db_path,
     word2vec_en_path, word2vec_mten_path,
     linear_hyperparams_config_path, linear_hyperparams_db_path,
     linear_hyperparams_result_path, linear_hyperparams_best_path, linear_model_path,
@@ -41,18 +40,18 @@ def linear_model_objective(
     print('===========================================')
     print(
         f'Now training model with init_stddev: {init_stddev}, use_bias: {use_bias},'
-         ' weight_decay: {weight_decay}, learning_rate: {learning_rate}'
+        f' weight_decay: {weight_decay}, learning_rate: {learning_rate}, batch_size: {batch_size}'
     )
     model = train_linear_model(
         source_embedding_size=hyperparams['source_embedding_size'],
-        target_embedding_matrix=hyperparams['target_embedding_size'],
+        target_embedding_size=hyperparams['target_embedding_size'],
         init_stddev=init_stddev,
         use_bias=use_bias,
         weight_decay=weight_decay,
         learning_rate=learning_rate,
         max_epochs=hyperparams['max_epochs'],
         source_embedding_matrix=word2vec_mt,
-        target_embedding_size=word2vec_en,
+        target_embedding_matrix=word2vec_en,
         train_data=data_set.train.flatten(),
         val_data=data_set.val,
         batch_size=batch_size,
@@ -63,7 +62,9 @@ def linear_model_objective(
     )
 
     with torch.no_grad():
-        word2vec_mten = model(torch.from_numpy(word2vec_mt)).cpu().numpy()
+        word2vec_mten = model(
+            torch.from_numpy(word2vec_mt).to(hyperparams['device'])
+        ).cpu().numpy()
     dev_map = translation_mean_average_precision(word2vec_mten, word2vec_en, data_set.dev)
     return dev_map
 
@@ -79,16 +80,15 @@ def tune_linear_model(
     study = optuna.create_study(
         direction='maximize',
         study_name='word2vec_mt',
-        storage='sqlite:///' + skipgram_hyperparams_db_path,
+        storage='sqlite:///' + linear_hyperparams_db_path,
         load_if_exists=True,
     )
     num_complete_trials = len(study.get_trials(states=[optuna.trial.TrialState.COMPLETE]))
-    study.optimize(
-        linear_model_objective,
-        n_trials=max(0, hyperparams['tuning_trials'] - num_complete_trials),
-    )
+    trials_left = max(0, hyperparams['tuning_trials'] - num_complete_trials)
+    print(f'Tuning for {trials_left} iterations')
+    study.optimize(linear_model_objective, n_trials=trials_left)
 
-    with open(linear_hyperparams_result_path, 'w', encoding='utf-8') as f:
+    with open(linear_hyperparams_result_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
             'init_stddev',
@@ -165,4 +165,7 @@ def train_best_linear_model(
 
     print('saving model hyperparameters')
     with open(linear_hyperparams_best_path, 'w', encoding='utf-8') as f:
-        json.dump(hyperparams, f)
+        json.dump(hyperparams, f, ensure_ascii=False, indent=4)
+
+    print('writing report on word2vec embeddings')
+    get_translation_report(word2vec_mt, word2vec_en, data_set.test)

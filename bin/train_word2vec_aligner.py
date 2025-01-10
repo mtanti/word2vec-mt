@@ -12,7 +12,7 @@ import argparse
 from word2vec_mt.paths import (
     vocab_mt_path, vocab_en_path, translations_mten_split_path, word2vec_mt_path, word2vec_en_path,
     linear_hyperparams_config_path, linear_hyperparams_db_path, linear_model_path,
-    linear_hyperparams_best_path, word2vec_mten_path,
+    linear_hyperparams_best_path, word2vec_mten_path, word2vec_mten_report_path,
 )
 from word2vec_mt.model import train_best_linear_model
 
@@ -38,6 +38,7 @@ def main(
             f' * {word2vec_mten_path},'
             f' * {linear_model_path},'
             f' * {linear_hyperparams_best_path}'
+            f' * {word2vec_mten_report_path}'
         ),
     )
     parser.parse_args()

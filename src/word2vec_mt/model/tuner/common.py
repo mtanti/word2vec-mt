@@ -1,6 +1,8 @@
 '''
 '''
 
+from typing import Optional
+import tqdm
 from word2vec_mt.model.trainer import TrainListener
 
 
@@ -15,6 +17,7 @@ class Listener(TrainListener):
     ) -> None:
         '''
         '''
+        self.progbar: Optional[tqdm.tqdm] = None
 
     #########################################
     def started_training(
@@ -32,6 +35,7 @@ class Listener(TrainListener):
         '''
         print('-----------')
         print('epoch', epoch_num)
+        self.progbar = tqdm.tqdm(total=num_batches)
 
     #########################################
     def ended_batch(
@@ -40,8 +44,11 @@ class Listener(TrainListener):
         num_batches: int,
         train_error: float,
     ) -> None:
-        if batch_num%1000 == 0:
-            print('batch', batch_num, 'of', num_batches)
+        assert self.progbar is not None
+        self.progbar.update()
+        if batch_num == num_batches:
+            self.progbar.close()
+            self.progbar = None
 
     #########################################
     def ended_epoch(

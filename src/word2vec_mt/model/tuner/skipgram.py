@@ -10,7 +10,7 @@ import optuna
 from word2vec_mt.model.tuner.common import Listener
 from word2vec_mt.model.trainer import train_skipgram_model
 from word2vec_mt.model.data import load_synonym_data_set
-from word2vec_mt.model.evaluate import synonym_mean_average_precision
+from word2vec_mt.model.evaluate import synonym_mean_average_precision, get_synonym_report
 from word2vec_mt.paths import (
     vocab_mt_path,
     proccorpus_mt_path, word2vec_mt_path,
@@ -40,7 +40,7 @@ def optimise_skipgram_batch_size(
             batch_size = upper_batch_size
         print(
             f'best batch size is between {lower_batch_size} and {upper_batch_size};'
-             ' now trying {batch_size}'
+            f' now trying {batch_size}'
         )
 
         try:
@@ -98,7 +98,7 @@ def skipgram_model_objective(
     print('===========================================')
     print(
         f'Now training model with init_stddev: {init_stddev}, dropout_rate: {dropout_rate},'
-         ' learning_rate: {learning_rate}'
+        f' learning_rate: {learning_rate}'
     )
     model = train_skipgram_model(
         vocab_size=len(vocab_mt),
@@ -137,12 +137,11 @@ def tune_skipgram_model(
         load_if_exists=True,
     )
     num_complete_trials = len(study.get_trials(states=[optuna.trial.TrialState.COMPLETE]))
-    study.optimize(
-        skipgram_model_objective,
-        n_trials=max(0, hyperparams['tuning_trials'] - num_complete_trials),
-    )
+    trials_left = max(0, hyperparams['tuning_trials'] - num_complete_trials)
+    print(f'Tuning for {trials_left} iterations')
+    study.optimize(skipgram_model_objective, n_trials=trials_left)
 
-    with open(skipgram_hyperparams_result_path, 'w', encoding='utf-8') as f:
+    with open(skipgram_hyperparams_result_path, 'w', encoding='utf-8', newline='') as f:
         writer = csv.writer(f)
         writer.writerow([
             'init_stddev',
@@ -210,4 +209,7 @@ def train_best_skipgram_model(
 
     print('saving model hyperparameters')
     with open(skipgram_hyperparams_best_path, 'w', encoding='utf-8') as f:
-        json.dump(hyperparams, f)
+        json.dump(hyperparams, f, ensure_ascii=False, indent=4)
+
+    print('writing report on word2vec embeddings')
+    get_synonym_report(model.get_embeddings(), data_set.test)

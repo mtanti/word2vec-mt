@@ -3,3 +3,4 @@ word2vec_en.npy
 corpus_mt.txt
 *.hdf5
 *.sqlite3
+*.pt

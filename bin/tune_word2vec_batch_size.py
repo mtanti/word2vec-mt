@@ -5,16 +5,15 @@
 #
 # This file is part of word2vec_mt project.
 '''
-Train the word2vec model for Maltese on the best hyperparameters found.
+Tune the batch size of the word2vec model for Maltese such that a batch uses all available VRAM.
 '''
 
 import argparse
 from word2vec_mt.paths import (
     vocab_mt_path, synonyms_mt_split_path, proccorpus_mt_path, skipgram_hyperparams_config_path,
-    skipgram_hyperparams_db_path, skipgram_model_path, word2vec_mt_path,
-    skipgram_hyperparams_best_path, word2vec_mt_report_path,
 )
-from word2vec_mt.model import train_best_skipgram_model
+from word2vec_mt.model import optimise_skipgram_batch_size
+
 
 
 #########################################
@@ -25,23 +24,29 @@ def main(
     '''
     parser = argparse.ArgumentParser(
         description=(
-            'Train the word2vec model for Maltese on the best hyperparameters found.'
+            'Tune the batch size of the word2vec model for Maltese such that a batch uses all'
+            ' available VRAM.'
             ' | Input files:'
             f' * {skipgram_hyperparams_config_path} (manually set config file),'
             f' * {vocab_mt_path} (extract_vocab.py),'
             f' * {synonyms_mt_split_path} (split_synonym_data_set.py),'
-            f' * {proccorpus_mt_path} (preprocess_corpus_to_train_set.py),'
-            f' * {skipgram_hyperparams_db_path} (tune_word2vec.py)'
+            f' * {proccorpus_mt_path} (preprocess_corpus_to_train_set.py)'
             ' | Output files:'
-            f' * {word2vec_mt_path},'
-            f' * {skipgram_model_path},'
-            f' * {skipgram_hyperparams_best_path}'
-            f' * {word2vec_mt_report_path}'
+            f' * {skipgram_hyperparams_config_path};'
+            ' Note that this overwrites the batch_size hyperparameter in the config file.'
         ),
     )
-    parser.parse_args()
+    parser.add_argument(
+        'max_batch_size',
+        type=int,
+        help=(
+            'The maximum batch size to use.'
+            ' The more VRAM in your GPU, the bigger this number can be.'
+        ),
+    )
+    args = parser.parse_args()
 
-    train_best_skipgram_model()
+    optimise_skipgram_batch_size(args.max_batch_size)
 
 
 #########################################

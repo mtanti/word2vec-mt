@@ -3,6 +3,7 @@
 
 import os
 import tempfile
+import math
 import numpy as np
 import torch
 from word2vec_mt.model.trainer.common import TrainListener
@@ -87,7 +88,7 @@ def train_linear_model(
     )
     best_val_map = 0.0
     num_bad_epochs = 0
-    num_batches = len(train_data.source_token_indexes)
+    num_batches = math.ceil(len(train_data.source_token_indexes)/batch_size)
     with tempfile.TemporaryDirectory() as tmp_dir:
         listener.started_training()
 
