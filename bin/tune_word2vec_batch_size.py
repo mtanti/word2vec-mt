@@ -37,8 +37,10 @@ def main(
         ),
     )
     parser.add_argument(
-        'max_batch_size',
+        '--max_batch_size',
         type=int,
+        required=False,
+        default=10000,
         help=(
             'The maximum batch size to use.'
             ' The more VRAM in your GPU, the bigger this number can be.'

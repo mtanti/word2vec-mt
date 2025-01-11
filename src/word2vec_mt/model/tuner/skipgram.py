@@ -3,6 +3,7 @@
 
 import json
 import csv
+import timeit
 import torch
 import h5py
 import numpy as np
@@ -32,6 +33,9 @@ def optimise_skipgram_batch_size(
     with open(skipgram_hyperparams_config_path, 'r', encoding='utf-8') as f:
         hyperparams = json.load(f)
 
+    print('Optimising batch size for device', hyperparams['device'])
+
+    duration = 0.0
     upper_batch_size = max_batch_size
     lower_batch_size = 1
     while True:
@@ -39,11 +43,12 @@ def optimise_skipgram_batch_size(
         if batch_size == lower_batch_size:
             batch_size = upper_batch_size
         print(
-            f'best batch size is between {lower_batch_size} and {upper_batch_size};'
-            f' now trying {batch_size}'
+            f'- best batch size is between {lower_batch_size} and {upper_batch_size}; now trying'
+            f' {batch_size}.'
         )
 
         try:
+            start_time = timeit.default_timer()
             train_skipgram_model(
                 vocab_size=len(vocab_mt),
                 embedding_size=hyperparams['embedding_size'],
@@ -60,6 +65,7 @@ def optimise_skipgram_batch_size(
                 seed=hyperparams['seed'],
                 test_mode=True,
             )
+            duration = timeit.default_timer() - start_time
             lower_batch_size = batch_size
         except torch.OutOfMemoryError:
             upper_batch_size = batch_size - 1
@@ -68,11 +74,16 @@ def optimise_skipgram_batch_size(
             torch.cuda.empty_cache()
         if abs(lower_batch_size - upper_batch_size) <= 1:
             break
+    batch_size = lower_batch_size
 
-    print('settled on', lower_batch_size)
+    print()
+    print(
+        f'Settled on batch size of {batch_size} with duration of {duration/batch_size:.6f} seconds'
+        ' per batch item.'
+    )
     print()
 
-    hyperparams['batch_size'] = lower_batch_size
+    hyperparams['batch_size'] = batch_size
     with open(skipgram_hyperparams_config_path, 'w', encoding='utf-8') as f:
         json.dump(hyperparams, f, ensure_ascii=False, indent=4)
 

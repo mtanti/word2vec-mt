@@ -5,5 +5,5 @@ malti==0.1.0
 numpy==1.21.6
 optuna==4.1.0
 pillow==11.1.0
-torch==2.0.1
+torch==2.5.1
 tqdm==4.67.1
