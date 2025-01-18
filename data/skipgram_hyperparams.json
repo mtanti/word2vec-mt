@@ -8,7 +8,8 @@
     "dropout_rate": [
         0.5,
         0.25,
-        0.1
+        0.1,
+        0.0
     ],
     "learning_rate": [
         1.0,
@@ -18,7 +19,7 @@
     "max_epochs": 10,
     "radius": 5,
     "superbatch_size_multiple": 1000,
-    "batch_size": 999,
+    "batch_size": 2498,
     "patience": 3,
     "tuning_trials": 20,
     "device": "cuda",
